@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
-#include <cassert>
 
 using namespace std;
 
@@ -41,7 +40,7 @@ struct Disk {
       } else if (GPT == _partLayout) {
          cout << " GPT " << endl;
       } else {
-         assert(false);
+        cout << " Unknown partition layout " << endl;
       }
 
       if (IDE == _diskController) {
@@ -51,7 +50,7 @@ struct Disk {
       } else if (SCSI == _diskController) {
          cout << " SCSI " << endl;
       } else {
-         assert(false);
+        cout << " Unknown disk controller " << endl;
       }
    }
 };
