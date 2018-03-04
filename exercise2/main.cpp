@@ -2,70 +2,43 @@
 #include <cstdio>
 #include <cstring>
 
+#include "Point.h"
+#include "Robot.h"
+
 using namespace std;
-
-int const MAX_LEN = 100;
-
-struct Example
-{
-    char symbol;
-    int *ptr;
-    char *stringPtr;
-    char str[MAX_LEN];
-};
 
 int main()
 {
-    Example dataHolder, copyHolder;
+    Point zeroZeroPoint;
+    zeroZeroPoint.Print();
 
-    dataHolder.symbol = 's';
+    Point fiveZeroPoint(5);
+    fiveZeroPoint.Print();
 
-    int number = 3;
-    dataHolder.ptr = &number;
+    Point customPoint(2, 3);
+    customPoint.Print();
 
-    char dataHolderStr[] = "dataHolder dynamic string";
-    dataHolder.stringPtr = dataHolderStr;
+    Robot robot; // a call to Robot::Robot() here
+    robot.Print();
 
-    strcpy(dataHolder.str, "dataHolder static string");
+    Robot testRobot(1, 2, "test"); // a call to Robot::Robot(int, int, const char*) here
+    testRobot.Print();
 
-    copyHolder = dataHolder;
+    const int newId = 3;
+    testRobot.setId(newId);
 
-    cout << "dataHolder: " << endl;
-    cout << "symbol: " << dataHolder.symbol << endl;
-    cout << "*ptr: " << *(dataHolder.ptr) << endl;
-    cout << "stringPtr: " << dataHolder.stringPtr << endl;
-    cout << "str: " << dataHolder.str << endl << endl;
+    const int newProductivity = 234;
+    testRobot.setProductivity(newProductivity);
 
-    cout << "copyHolder: " << endl;
-    cout << "symbol: " << copyHolder.symbol << endl;
-    cout << "*ptr: " << *(copyHolder.ptr) << endl;
-    cout << "stringPtr: " << copyHolder.stringPtr << endl;
-    cout << "str: " << copyHolder.str << endl << endl;
+    char newRobotName[ROBO_NAME_MAX_LEN];
+    strcpy(newRobotName, "newTestName");
 
-    cout << "Performing mutation on copyHolder ... " << endl << endl;
+    testRobot.setName(newRobotName);
 
-    *(copyHolder.ptr) = 2;
-    strncpy(copyHolder.stringPtr, "copy", 4);
-    /*
-    Calling strncpy(copyHolder.stringPtr, "copy", 4);
-    is the same as performing the following 4 assignments:
+    cout << testRobot.getId() << " " << testRobot.getProductivity() << " "
+         << testRobot.getName() << endl;
 
-    copyHolder.stringPtr[0] = 'c';
-    copyHolder.stringPtr[1] = 'o';
-    copyHolder.stringPtr[2] = 'p';
-    copyHolder.stringPtr[3] = 'y';*/
-
-    cout << "dataHolder: " << endl;
-    cout << "symbol: " << dataHolder.symbol << endl;
-    cout << "*ptr: " << *(dataHolder.ptr) << endl;
-    cout << "stringPtr: " << dataHolder.stringPtr << endl;
-    cout << "str: " << dataHolder.str << endl << endl;
-
-    cout << "copyHolder: " << endl;
-    cout << "symbol: " << copyHolder.symbol << endl;
-    cout << "*ptr: " << *(copyHolder.ptr) << endl;
-    cout << "stringPtr: " << copyHolder.stringPtr << endl;
-    cout << "str: " << copyHolder.str << endl;
+    testRobot.Print();
 
     return 0;
 }
