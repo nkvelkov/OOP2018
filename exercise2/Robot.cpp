@@ -40,7 +40,7 @@ Robot::setName(const char* name)
 {
     assert(name);
 
-    strcpy(_name, name);
+    strcpy(_name, name); // or strcpy_s(_name, name) if you are using VS.
 }
 
 int

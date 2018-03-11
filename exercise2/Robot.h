@@ -1,8 +1,6 @@
 #ifndef ROBOT_H_INCLUDED
 #define ROBOT_H_INCLUDED
 
-#include "Point.h"
-
 // Note: in C++ const objects have internal linkage by default.
 // In a C header you should write static const int ROBO_NAME_MAX_LEN = 41;
 const int ROBO_NAME_MAX_LEN = 41;
