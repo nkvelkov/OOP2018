@@ -1,26 +1,56 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef VECTOR_H_INCLUDED
+#define VECTOR_H_INCLUDED
 
-#include <cassert>
-#include <cstddef>
+#include <iostream>
 
 const int INITIAL_VEC_SIZE = 1;
+template <typename T>
+class Vector;
 
+template <typename T>
+std::ostream& operator << (std::ostream& out, Vector<T> const& vec)
+{
+    for (int i = 0; i < vec.size; ++i)
+    {
+       out << vec[i] << " ";
+    }
+    out << std::endl;
+
+    return out;
+}
+
+template <typename T>
+std::istream& operator >>  (std::istream& in, Vector<T>& vec)
+{
+    int curNumber;
+    while (in >> curNumber)
+    {
+        vec.push_back(curNumber);
+    }
+
+    return in;
+}
+
+template <typename T>
 class Vector
 {
     public:
+
+        friend std::ostream& operator << <T> (std::ostream& out, Vector<T> const& vec);
+        friend std::istream& operator >> <T> (std::istream& out, Vector<T> & vec);
+
         Vector() : arr(NULL), size(0), capacity(0)
         {
            arr = new int[INITIAL_VEC_SIZE];
            capacity = INITIAL_VEC_SIZE;
         }
 
-        Vector(const Vector& other)
+        Vector(const Vector<T>& other)
         {
            copyVector(other);
         }
 
-        Vector& operator= (const Vector& other)
+        Vector<T>& operator= (const Vector<T>& other)
         {
            if (this != &other)
            {
@@ -35,7 +65,7 @@ class Vector
            deleteVector();
         }
 
-        void push_back(int elem)
+        void push_back(T elem)
         {
             if (size >= capacity)
             {
@@ -51,7 +81,7 @@ class Vector
             --size;
         }
 
-        bool insertAt(int index, int element)
+        bool insertAt(int index, T element)
         {
             if (index < 0 || index > size)
             {
@@ -100,7 +130,7 @@ class Vector
            return arr[index];
         }
 
-        bool elementExists(int element) const
+        bool elementExists(T element) const
         {
            for (int i = 0; i < size; ++i)
            {
@@ -128,9 +158,10 @@ class Vector
         {
            delete [] arr;
         }
-        void copyVector(const Vector& other)
+
+        void copyVector(const Vector<T>& other)
         {
-           this->arr = new int[other.capacity];
+           this->arr = new T[other.capacity];
            this->size = other.size;
            this->capacity = other.capacity;
 
@@ -142,8 +173,8 @@ class Vector
 
         void extendVector()
         {
-           int *temp = arr;
-           arr = new int[2 * capacity];
+           T *temp = arr;
+           arr = new T[2 * capacity];
 
            capacity *= 2;
 
@@ -155,9 +186,9 @@ class Vector
            delete [] temp;
         }
 
-        int* arr;
+        T* arr;
         int  size;
         int  capacity;
 };
 
-#endif // VECTOR_H
+#endif // VECTOR_H_INCLUDED
