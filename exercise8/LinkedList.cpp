@@ -1,5 +1,6 @@
 #include "LinkedList.h"
 #include <iostream>
+#include <cassert>
 
 LinkedList::LinkedList() : root(NULL), _size(0)
 {
@@ -86,6 +87,7 @@ bool LinkedList::getAt (int index, int& result) const
     }
 
     Node* node = lookup(index);
+    assert(node);
 
     result = node->data;
 
@@ -122,13 +124,20 @@ bool LinkedList::removeAfter (int index)
 
 bool LinkedList::removeAt(int index)
 {
-   if (index < 1)
+   if (!root)
+   {
+      return false;
+   }
+
+   if (0 == index)
    {
        Node* curNode = root;
        root = curNode->next;
        delete curNode;
+
        --_size;
-       return false;
+
+       return true;
    }
 
    return removeAfter(index-1);
