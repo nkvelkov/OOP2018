@@ -17,6 +17,8 @@ LinkedList& LinkedList::operator= (const LinkedList& other)
    if (this != &other)
    {
        deleteList();
+       assert(NULL == root);
+       assert(0 == _size);
        copyList(other);
    }
    return *this;
@@ -25,6 +27,8 @@ LinkedList& LinkedList::operator= (const LinkedList& other)
 LinkedList::~LinkedList()
 {
     deleteList();
+    assert(NULL == root);
+    assert(0 == _size);
 }
 
 void
@@ -36,23 +40,26 @@ LinkedList::copyList(const LinkedList& other)
    {
        root = new Node();
        root->data = otherRoot->data;
+       ++_size;
    } else {
       root = NULL;
       return;
    }
 
-   Node* curNode = root;
+   Node* prevNode = root;
 
    otherRoot = otherRoot->next;
    while (otherRoot != NULL)
    {
       Node *nextNode = new Node();
       nextNode->data = otherRoot->data;
-      curNode->next = nextNode;
+      prevNode->next = nextNode;
+      ++_size;
 
-      curNode = nextNode;
+      prevNode = nextNode;
       otherRoot = otherRoot->next;
    }
+   prevNode->next = NULL;
 }
 
 void
@@ -64,7 +71,11 @@ LinkedList::deleteList()
        Node* tempNode = curNode;
        curNode = curNode->next;
        delete tempNode;
+       tempNode = NULL;
+
+       --_size;
    }
+   root = NULL;
 }
 
 Node* LinkedList::lookup(int index) const
@@ -98,11 +109,12 @@ void LinkedList::insertAtBeginning (int data)
 {
    Node* newNode = new Node();
    newNode->data = data;
+   ++_size;
 
    newNode->next = root;
    root = newNode;
-   ++_size;
-}
+
+ }
 
 bool LinkedList::removeAfter (int index)
 {
@@ -116,6 +128,7 @@ bool LinkedList::removeAfter (int index)
    prevNode->next = targetNode->next;
 
    delete targetNode;
+   targetNode = NULL;
 
    --_size;
 
@@ -134,6 +147,7 @@ bool LinkedList::removeAt(int index)
        Node* curNode = root;
        root = curNode->next;
        delete curNode;
+       curNode = NULL;
 
        --_size;
 
@@ -145,21 +159,57 @@ bool LinkedList::removeAt(int index)
 
 bool LinkedList::empty() const
 {
-    // TODO: implement me;
-    return false;
+    return 0 == _size;
 }
 
 int LinkedList::size ( ) const
 {
+    return _size;
+}
+
+int LinkedList::calculateSize ( ) const
+{
     Node* curNode = root;
-    int elementsCounter = 0;
+    int numElements = 0;
 
     while (curNode != NULL)
     {
         curNode = curNode->next;
-        elementsCounter++;
+        numElements++;
     }
 
-    return elementsCounter;
+    return numElements;
 }
 
+void LinkedList::insertToEnd () // - добавяне на елемент в края на списъка
+{
+    // TODO: implement me
+}
+
+void LinkedList::insertBefore (int index) //- добавяне на елемент преди даден елемент в списъка
+{
+    // TODO: implement me
+}
+
+void LinkedList::insertAfter (int index) // - добавяне на елемент след даден елемент в списъка
+{
+    // TODO: implement me
+}
+
+void LinkedList::removeBefore(int index) // - премахване на елемент преди даден елемент в списъка
+{
+    // TODO: implement me
+}
+
+void LinkedList::print() const
+{
+    Node* curNode = root;
+
+    while (curNode != NULL)
+    {
+        std::cout << curNode->data << " ";
+        curNode = curNode->next;
+
+    }
+    std::cout << std::endl;
+}

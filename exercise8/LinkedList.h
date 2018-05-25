@@ -17,6 +17,7 @@ class LinkedList
         bool empty() const;
 
         int size ( ) const;
+        int calculateSize ( ) const;
 
         bool getAt (int index, int& result) const;
 
@@ -31,6 +32,7 @@ class LinkedList
         void removeBefore(int index);// - премахване на елемент преди даден елемент в списъка
         bool removeAfter (int index);
 
+        void print() const;
 
     private:
 
