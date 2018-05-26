@@ -40,6 +40,7 @@ LinkedList::copyList(const LinkedList& other)
    {
        root = new Node();
        root->data = otherRoot->data;
+       root->next = NULL;
        ++_size;
    } else {
       root = NULL;
@@ -105,17 +106,6 @@ bool LinkedList::getAt (int index, int& result) const
     return true;
 }
 
-void LinkedList::insertAtBeginning (int data)
-{
-   Node* newNode = new Node();
-   newNode->data = data;
-   ++_size;
-
-   newNode->next = root;
-   root = newNode;
-
- }
-
 bool LinkedList::removeAfter (int index)
 {
    Node* prevNode = lookup(index);
@@ -157,6 +147,17 @@ bool LinkedList::removeAt(int index)
    return removeAfter(index-1);
 }
 
+bool LinkedList::removeBefore(int index) // - премахване на елемент преди даден елемент в списъка
+{
+   if (index <= 0 || index > _size-1)
+   {
+       return false;
+   }
+
+   return removeAt(index-1);
+
+}
+
 bool LinkedList::empty() const
 {
     return 0 == _size;
@@ -181,24 +182,65 @@ int LinkedList::calculateSize ( ) const
     return numElements;
 }
 
-void LinkedList::insertToEnd () // - добавяне на елемент в края на списъка
+void LinkedList::insertAtBeginning (int data)
 {
-    // TODO: implement me
+   Node* newNode = new Node();
+   newNode->data = data;
+   ++_size;
+
+   newNode->next = root;
+   root = newNode;
 }
 
-void LinkedList::insertBefore (int index) //- добавяне на елемент преди даден елемент в списъка
+void LinkedList::insertToEnd (int data) // - добавяне на елемент в края на списъка
 {
-    // TODO: implement me
+   if (NULL == root) {
+      root = new Node();
+      root->data = data;
+      root->next = NULL;
+      ++_size;
+
+      return;
+   }
+
+   // There is at least one element
+   insertAfter(_size-1, data);
 }
 
-void LinkedList::insertAfter (int index) // - добавяне на елемент след даден елемент в списъка
+bool LinkedList::insertBefore (int index, int data) //- добавяне на елемент преди даден елемент в списъка
 {
-    // TODO: implement me
+   if (index < 0 || index > _size-1)
+   {
+       return false;
+   }
+
+   if (0 == index) {
+      insertAtBeginning(data);
+      return true;
+   }
+
+   // There is at least one element
+   return insertAfter(index-1, data);
+
 }
 
-void LinkedList::removeBefore(int index) // - премахване на елемент преди даден елемент в списъка
+bool LinkedList::insertAfter (int index, int data) // - добавяне на елемент след даден елемент в списъка
 {
-    // TODO: implement me
+   Node* prevNode = lookup(index);
+   if (NULL == prevNode)
+   {
+       return false;
+   }
+
+   Node* newNode = new Node();
+   newNode->data = data;
+   newNode->next = prevNode->next;
+
+   prevNode->next = newNode;
+   ++_size;
+
+   return true;
+
 }
 
 void LinkedList::print() const
