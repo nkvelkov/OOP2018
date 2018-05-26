@@ -108,6 +108,11 @@ bool LinkedList::getAt (int index, int& result) const
 
 bool LinkedList::removeAfter (int index)
 {
+   if (index < 0 || index > _size-1)
+   {
+      return false;
+   }
+
    Node* prevNode = lookup(index);
    if (!prevNode || !prevNode->next)
    {
@@ -127,6 +132,11 @@ bool LinkedList::removeAfter (int index)
 
 bool LinkedList::removeAt(int index)
 {
+   if (index < 0 || index > _size-1)
+   {
+       return false;
+   }
+
    if (!root)
    {
       return false;
@@ -226,11 +236,13 @@ bool LinkedList::insertBefore (int index, int data) //- добавяне на е
 
 bool LinkedList::insertAfter (int index, int data) // - добавяне на елемент след даден елемент в списъка
 {
-   Node* prevNode = lookup(index);
-   if (NULL == prevNode)
+   if (index < 0 || index > _size-1)
    {
-       return false;
+      return false;
    }
+
+   Node* prevNode = lookup(index);
+   assert(prevNode);
 
    Node* newNode = new Node();
    newNode->data = data;
